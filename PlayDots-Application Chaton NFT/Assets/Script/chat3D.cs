@@ -30,8 +30,8 @@ public class chat3D : MonoBehaviour
 
     public void SetUp3DCat(int id)
     { 
-    cam.backgroundColor = backColors[id];
-    gameObject.GetComponent<MeshRenderer>().material = catMat[id];
+    cam.backgroundColor = backColors[id-1];
+    gameObject.GetComponent<MeshRenderer>().material = catMat[id-1];
     use = true;
     }
 

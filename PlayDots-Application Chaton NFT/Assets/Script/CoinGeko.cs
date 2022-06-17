@@ -16,12 +16,16 @@ public class CoinGeko : MonoBehaviour
     public float btc;
     public float eur;
     public float usd;
+    public Vector3 Prix;
+    public GameObject Sqlite;
+    private bool init;
 
 
-    void Start()
+    void Awake()
     {
         //Lancement de la requete
         StartCoroutine(GetRequest(uri));
+        init = false;
     }
     
     IEnumerator GetRequest(string uri)
@@ -44,25 +48,45 @@ public class CoinGeko : MonoBehaviour
                     JSONObject JsObj = (JSONObject) JSON.Parse(result);
                     
                     //Test de récupération des valeur
-                    Debug.Log(JsObj);
+                    /*Debug.Log(JsObj);
                     Debug.Log(JsObj["ethereum"]);
                     Debug.Log(JsObj["ethereum"]["btc"]);
                     Debug.Log(JsObj["ethereum"]["eur"]);
                     Debug.Log(JsObj["ethereum"]["usd"]);
+                    Debug.Log("--FIN DE COIN GEKO--");*/
 
                     //Assignement des valeur
                     btc = JsObj["ethereum"]["btc"];
                     eur = JsObj["ethereum"]["eur"];
                     usd = JsObj["ethereum"]["usd"];
+
+                    if (!init)
+                    {
+                        Sqlite.GetComponent<Sqlite>().InitNftTable();
+                        init = true;
+                    }
+                    
                     
                     //Test du calcul de la valeur de mon NFT en euro
-                    Debug.Log((0.08f*(float)JsObj["ethereum"]["eur"])/1f);
+                    //Debug.Log((0.08f*(float)JsObj["ethereum"]["eur"])/1f);
 
                 }
             }
 
             yield return new WaitForSeconds(30f);
         }
+    }
+
+    //Fonction de calcul du prix du NFT dans les différentes devises
+    public Vector3 Calculprix(float valeur)
+    {
+        if (btc != null && eur != null && usd != null)
+        {
+            Prix.x = (valeur * btc) / 1f;
+            Prix.y = (valeur * eur) / 1f;
+            Prix.z = (valeur * usd) / 1f;
+        }
+        return Prix;
     }
 }
         

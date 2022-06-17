@@ -12,6 +12,11 @@ public class Navigation : MonoBehaviour
  public GameObject chatonNP;
  public GameObject chatonP;
  
+ private void Start()
+ {
+     nft = gameObject.GetComponent<NFT>();
+ }
+ 
  public void OpenChatonNP()
  {
    chatonNP.SetActive(true);
@@ -25,14 +30,13 @@ public class Navigation : MonoBehaviour
  public void OpenChatonP()
  {
      chatonP.SetActive(true);
-     chatonNP.transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<Text>().text = nft.auteur;
-     chatonNP.transform.GetChild(5).gameObject.GetComponent<Text>().text = nft.nom;
-     Debug.Log(nft.id);
+     chatonP.transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<Text>().text = nft.auteur;
+     chatonP.transform.GetChild(5).gameObject.GetComponent<Text>().text = nft.nom;
+     chatonP.transform.GetChild(6).gameObject.GetComponent<Text>().text =
+         "Ce NFT vaut " + nft.pEth + " ETH, soit " + nft.pBtc + " BTC, soit " + nft.pEur + " €, soit "+nft.pUsd+" $";
+     //Debug.Log(nft.id);
      chat.GetComponent<chat3D>().SetUp3DCat(nft.id);
  }
 
- private void Start()
- {
-     nft = gameObject.GetComponent<NFT>();
- }
+
 }
